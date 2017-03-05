@@ -40,12 +40,12 @@ def get_all_files(client, bucket_name, prefix='', marker=''):
     return all_files
 
 
-def set_files_acl(client, bucket_name, files):
+def set_files_acl(client, bucket_name, files, acl):
     for file in files:
         resp = client.put_object_acl(
             Bucket=bucket_name,
             Key=file,
-            ACL='public-read',
+            ACL=acl,
         )
         if resp['ResponseMetadata']['HTTPStatusCode'] != 200:
             print 'failed to set acl for file: ' + file
@@ -62,4 +62,4 @@ if __name__ == '__main__':
 
     print 'about to change acl of %d files' % len(all_files)
 
-    set_files_acl(client, bucket_name, all_files)
+    set_files_acl(client, bucket_name, all_files, acl)
